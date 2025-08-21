@@ -15,6 +15,7 @@ class UserRoleSeeder extends Seeder
      */
     public function run()
     {
+        UserRole::truncate();
         $user_role = new UserRole();
         $user_role->name = 'super_admin';
         $user_role->serial = '1';

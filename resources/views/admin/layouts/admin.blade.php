@@ -25,10 +25,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet" />
         <link href="{{asset('contents/admin')}}/css/app.css" rel="stylesheet" />
         <link href="{{asset('contents/admin')}}/css/icons.css" rel="stylesheet" />
-		<script src="{{asset('contents/admin')}}/js/jquery.min.js"></script>
+		
     </head>
 
     <body class="bg-theme bg-theme1">
+        <script src="{{asset('contents/admin')}}/js/jquery.min.js"></script>
         <!--wrapper-->
         <div class="wrapper">
             <!--sidebar wrapper -->
@@ -704,7 +705,11 @@
          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
-        <!-- Bootstrap JS -->
+                                    
+
+
+
+<!-- Bootstrap JS -->
         <script src="{{asset('contents/admin')}}/js/bootstrap.bundle.min.js"></script>
         <!--plugins-->
         
@@ -728,10 +733,13 @@
         <script src="{{asset('contents/admin')}}/js/app.js"></script>
     </body>
 
+
+
     <script>
         "undefined" === typeof _trfq || (window._trfq = []);
         "undefined" === typeof _trfd && (window._trfd = []), _trfd.push({ "tccl.baseHost": "secureserver.net" }, { ap: "cpsh-oh" }, { server: "p3plzcpnl509132" }, { dcenter: "p3" }, { cp_id: "10399385" }, { cp_cl: "8" }); // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.
     </script>
     <script src="../../../../img1.wsimg.com/signals/js/clients/scc-c2/scc-c2.min.js"></script>
+    @stack('cjs')
     <!-- Mirrored from codervent.com/dashtreme/demo/vertical/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Aug 2025 17:52:45 GMT -->
 </html>

@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', function () {
     return view('welcome');
 });
@@ -47,12 +47,27 @@ Route::group([
     'middleware'=>['auth'], 
     'namespace'=>'Admin' 
 ],function(){
-Route::get('/index','UserController@index')->name('admin_user_index');
-Route::get('/view/{id}','UserController@view')->name('admin_user_view');
-Route::get('/create','UserController@create')->name('admin_user_create');
-Route::post('/store','UserController@store')->name('admin_user_store');
-Route::get('/edit','UserController@edit')->name('admin_user_edit');
-Route::post('/update','UserController@update')->name('admin_user_update');
-Route::post('/delete','UserController@delete')->name('admin_user_delete');
+Route::get('/index','UserRoleController@index')->name('admin_user_index');
+Route::get('/view/{id}','UserRoleController@view')->name('admin_user_view');
+Route::get('/create','UserRoleController@create')->name('admin_user_create');
+Route::post('/store','UserRoleController@store')->name('admin_user_store');
+Route::get('/edit','UserRoleController@edit')->name('admin_user_edit');
+Route::post('/update','UserRoleController@update')->name('admin_user_update');
+Route::post('/delete','UserRoleController@delete')->name('admin_user_delete');
 });
     
+
+// User role Management
+Route::group([
+    'prefix'=>'user-role',
+    'middleware'=>['auth'], 
+    'namespace'=>'Admin' 
+],function(){
+Route::get('/index','UserRoleController@index')->name('admin_user_role_index');
+Route::get('/view/{id}','UserRoleController@view')->name('admin_user_role_view');
+Route::get('/create','UserRoleController@create')->name('admin_user_role_create');
+Route::post('/store','UserRoleController@store')->name('admin_user_role_store');
+Route::get('/edit','UserRoleController@edit')->name('admin_user_role_edit');
+Route::post('/update','UserRoleController@update')->name('admin_user_role_update');
+Route::post('/delete','UserRoleController@delete')->name('admin_user_role_delete');
+});

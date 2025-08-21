@@ -38,11 +38,9 @@
                             <li>
                                 <a href="{{ route('admin_user_index') }}"><i class="bx bx-radio-circle"></i>index</a>
                                </li>
+                            
                             <li>
-                                {{-- <a href="{{ route('admin_user_view') }}"><i class="bx bx-radio-circle"></i>view</a> --}}
-                            </li>
-                            <li>
-                                <a href="{{ route('admin_user_create') }}"><i class="bx bx-radio-circle"></i>create</a>
+                                <a href="{{ route('admin_user_role_index') }}"><i class="bx bx-radio-circle"></i>User Role</a>
                             </li>
                         </ul>
                     </li>
