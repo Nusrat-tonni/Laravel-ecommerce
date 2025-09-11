@@ -1,29 +1,25 @@
-
-
 @extends('admin.layouts.admin')
-
 @section('content')
-<style>
-    .card .table .card .table th {
-        white-space: break-spaces;
-        padding-left: 1.5rem;
-    }
-</style>
-
-            <!--start page wrapper -->
-            <div class="page-wrapper">
-                <div class="container-fluid">
-                @include('admin.includes.bread_crumb',['title'=>'View'])
-              <div class="row">
+    <style>
+        .card .table td,
+        .card .table th {
+            padding-right: 1.5rem;
+            white-space: break-spaces;
+        }
+    </style>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            @include('admin.includes.bread_crumb', ['title' => 'View'])
+            <div class="row">
                 <div class="col-lg-12">
-                     <div class="card">
+                    <div class="card">
                         <div class="card-body">
-                            <table class="table table-bordered table-hover table-striped">
+                            <table class="table table-bordered table-hover table-stripped">
                                 <tr>
                                     <td style="width: 40%">Photo</td>
                                     <td>:</td>
                                     <td>
-                                     <img src="/{{$user->image}}" height="60" alt="">
+                                        {{ $user->image }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -41,7 +37,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 40%">User Name</td>
+                                    <td style="width: 40%">User name</td>
                                     <td>:</td>
                                     <td>
                                         {{ $user->username }}
@@ -51,7 +47,7 @@
                                     <td style="width: 40%">Email</td>
                                     <td>:</td>
                                     <td>
-                                        {{ $user-> email}}
+                                        {{ $user->email }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -61,27 +57,23 @@
                                         {{ $user->role_id }}
                                     </td>
                                 </tr>
-                               <tr>
-                                    <td style="width: 40%">Created at</td>
+                                <tr>
+                                    <td style="width: 40%">Created At</td>
                                     <td>:</td>
                                     <td>
                                         {{ $user->created_at }}
                                     </td>
                                 </tr>
-
                             </table>
                         </div>
                     </div>
                 </div>
-              </div>
-                
-               
-  
-        
-  <!--end page wrapper -->
+            </div>
             <!--start overlay-->
             <div class="overlay"></div>
             <!--end overlay-->
- </div>
-  </div>
+        </div>
+        <!-- End container-fluid-->
+    </div>
+    <!--End content-wrapper-->
 @endsection

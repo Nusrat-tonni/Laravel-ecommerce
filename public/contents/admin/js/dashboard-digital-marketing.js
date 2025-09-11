@@ -46,7 +46,7 @@ var options = {
             },
             series: [{
                 name: 'Twitter Followers',
-                data: [76, 85, 101, 98, 87, 105, 91, 114, 94] // use the array for displaying data from mysql or .net remove the hard number-->
+                data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
             }],
 
             xaxis: {
@@ -120,7 +120,7 @@ var options = {
 
     var options = {
             chart: {
-                height: 270,
+                height: 290,
                 type: 'radialBar',
             },
             plotOptions: {
@@ -129,7 +129,7 @@ var options = {
                     endAngle: 225,
 					hollow: {
 						margin: 0,
-						size: '75%',
+						size: '65%',
 						background: 'transparent',
 						dropShadow: {
                         enabled: true,
@@ -532,6 +532,9 @@ var options = {
         chart.render();
 
 
+
+     
+
      // chart 6
 
      var optionsProgress1 = {
@@ -547,7 +550,7 @@ var options = {
 	  plotOptions: {
 	    bar: {
 	      horizontal: true,
-	      barHeight: '15%',
+	      barHeight: '20%',
 	      colors: {
 	        backgroundBarColors: ['rgba(255, 255, 255, 0.12)']
 	      }
@@ -623,7 +626,7 @@ var options = {
 	  plotOptions: {
 	    bar: {
 	      horizontal: true,
-	      barHeight: '15%',
+	      barHeight: '20%',
 	      colors: {
 	        backgroundBarColors: ['rgba(255, 255, 255, 0.12)']
 	      }
@@ -698,7 +701,7 @@ var options = {
 	  plotOptions: {
 	    bar: {
 	      horizontal: true,
-	      barHeight: '15%',
+	      barHeight: '20%',
 	      colors: {
 	        backgroundBarColors: ['rgba(255, 255, 255, 0.12)']
 	      }
@@ -773,7 +776,7 @@ var options = {
 	  plotOptions: {
 	    bar: {
 	      horizontal: true,
-	      barHeight: '15%',
+	      barHeight: '20%',
 	      colors: {
 	        backgroundBarColors: ['rgba(255, 255, 255, 0.12)']
 	      }

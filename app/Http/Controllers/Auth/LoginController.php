@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
+use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Session;
+
 
 class LoginController extends Controller
 {
+	
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -37,4 +43,22 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    protected function attemptLogin(Request $request){
+     $this->guard()->attempt(
+            $this->credentials($request), $request->filled('remember')
+        );
+        // dd($request->all());
+        if(!User::where('email',$request->email)->exists()){
+            Auth::logout();
+            return redirect()->back()->with('error','your account is blocked');;
+        }
+        if(Auth::check() && Auth::user()->status == 0){
+            Auth::logout();
+            return redirect()->back()->with('error','your account is blocked');;
+        }
+        return '/admin';
+
+}
+
 }

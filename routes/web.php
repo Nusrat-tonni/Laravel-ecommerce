@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Routing\RouteGroup;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 
 /*
@@ -16,18 +19,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//  Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', function () {
     return view('welcome');
 });
 
+// /Route::get('/admin', 'Admin\AdminController@index')->name('admin_index')->middleware('auth');
 
-
+// Route::post('/login','Auth\LoginController@login')->middleware('check_user_is_active');
 
 Route::group([
     'prefix'=>'admin',
@@ -41,26 +43,29 @@ Route::get('/create','AdminController@blade_create')->name('admin_blade_create')
 Route::get('/view','AdminController@blade_view')->name('admin_blade_view');
 });
 
+
+
 // User Management
 Route::group([
     'prefix'=>'user',
-    'middleware'=>['auth'], 
+    'middleware'=>['auth','check_user_is_active','super_admin',], 
     'namespace'=>'Admin' 
 ],function(){
-Route::get('/index','UserRoleController@index')->name('admin_user_index');
-Route::get('/view/{id}','UserRoleController@view')->name('admin_user_view');
-Route::get('/create','UserRoleController@create')->name('admin_user_create');
-Route::post('/store','UserRoleController@store')->name('admin_user_store');
-Route::get('/edit','UserRoleController@edit')->name('admin_user_edit');
-Route::post('/update','UserRoleController@update')->name('admin_user_update');
-Route::post('/delete','UserRoleController@delete')->name('admin_user_delete');
+Route::get('/index','UserController@index')->name('admin_user_index');
+Route::get('/view/{id}','UserController@view')->name('admin_user_view');
+Route::get('/create','UserController@create')->name('admin_user_create');
+Route::post('/store','UserController@store')->name('admin_user_store');
+Route::get('/edit/{id}','UserController@edit')->name('admin_user_edit');
+Route::post('/update','UserController@update')->name('admin_user_update');
+Route::post('/delete','UserController@delete')->name('admin_user_delete');
+
 });
     
 
 // User role Management
 Route::group([
     'prefix'=>'user-role',
-    'middleware'=>['auth'], 
+    'middleware'=>['auth','check_user_is_active','super_admin',], 
     'namespace'=>'Admin' 
 ],function(){
 Route::get('/index','UserRoleController@index')->name('admin_user_role_index');

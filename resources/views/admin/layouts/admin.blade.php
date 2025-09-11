@@ -1,680 +1,293 @@
 <!DOCTYPE html>
-<html lang="en">
-    <!-- Mirrored from codervent.com/dashtreme/demo/vertical/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Aug 2025 17:51:41 GMT -->
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Ecommerce Controlled dashboard" />
-        <meta name="author" content="Ecommerce.com" />
-        <title>Dashoard</title>
-        <!--favicon-->
-        <link rel="icon" href="{{asset('contents/admin')}}/images/favicon-32x32.png" type="image/png" />
-        <!--plugins-->
-        <script src="{{asset('contents/admin')}}/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
-        <link href=" {{ asset('contents/admin')}}/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
-        <link href="{{asset('contents/admin')}}/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
-        <link href="{{asset('contents/admin')}}/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
-        <link href="{{asset('contents/admin')}}/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
-        <!-- loader-->
-        <link href="{{asset('contents/admin')}}/css/pace.min.css" rel="stylesheet" />
-        <script src="{{asset('contents/admin')}}/js/pace.min.js"></script>
-        <!-- Bootstrap CSS -->
-        <link href="{{asset('contents/admin')}}/css/bootstrap.min.css" rel="stylesheet" />
-        <link href="{{asset('contents/admin')}}/css/bootstrap-extended.css" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet" />
-        <link href="{{asset('contents/admin')}}/css/app.css" rel="stylesheet" />
-        <link href="{{asset('contents/admin')}}/css/icons.css" rel="stylesheet" />
-		
-    </head>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-    <body class="bg-theme bg-theme1">
-        <script src="{{asset('contents/admin')}}/js/jquery.min.js"></script>
-        <!--wrapper-->
-        <div class="wrapper">
-            <!--sidebar wrapper -->
-            <div class="sidebar-wrapper" data-simplebar="true">
-                <div class="sidebar-header">
-                    <div>
-                        <img src="{{asset('contents/admin')}}/images/logo-icon.png" class="logo-icon" alt="logo icon" />
-                    </div>
-                    <div>
-                        <h4 class="logo-text">Ecommerce</h4>
-                    </div>
-                    <div class="toggle-icon ms-auto"><i class="bx bx-arrow-back"></i></div>
-                </div>
-                <!--navigation-->
-               @include('admin.includes.sidebar')
-                <!--end navigation-->
+<meta charset="utf-8" />
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="Ecommerce Controlled Dashboard" />
+<meta name="author" content="Ecommerce.com" />
+<title>Dashboard</title>
+<!-- loader-->
+<link href="{{ asset('contents/admin') }}/css/pace.min.css" rel="stylesheet" />
+<script src="{{ asset('contents/admin') }}/js/pace.min.js"></script>
+<!--favicon-->
+<link rel="icon" href="{{ asset('contents/admin') }}/images/favicon.ico" type="image/x-icon" />
+<!-- simplebar CSS-->
+<link href="{{ asset('contents/admin') }}/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+<!-- Bootstrap core CSS-->
+<link href="{{ asset('contents/admin') }}/css/bootstrap.min.css" rel="stylesheet" />
+<!-- animate CSS-->
+<link href="{{ asset('contents/admin') }}/css/animate.css" rel="stylesheet" type="text/css" />
+<!-- Icons CSS-->
+<link href="{{ asset('contents/admin') }}/css/icons.css" rel="stylesheet" type="text/css" />
+<!-- Metismenu CSS-->
+<link href="{{ asset('contents/admin') }}/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+<!-- Custom Style-->
+<link href="{{ asset('contents/admin') }}/css/app-style.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="{{ asset('contents/admin') }}/js/jquery.min.js"></script>
+<script>
+    <script>
+            $.ajaxSetup({
+                cache:false,
+                contentType: false,
+                processData: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                }
+            });
+            $( document ).ajaxSuccess((e,res)=>console.log((res.responseJSON && res.responseJSON) || res));
+            $( document ).ajaxError(function( event, res ) {
+                console.log(res.responseJSON.errors || res);
+            });
+            function toaster(icon, message){
+                Toast.fire({
+                    icon: icon,
+                    title: message,
+                })
+            }
+        </script>
+</script>
+</head>
+
+<body class="bg-theme bg-theme1">
+    @include('include.flash')
+    <!-- Start wrapper-->
+    <div id="wrapper">
+        <!--Start sidebar-wrapper-->
+        <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
+            <div class="brand-logo">
+                <img src="{{ asset('contents/admin') }}/images/logo-icon.png" class="logo-icon" alt="logo icon" />
+                <h5 class="logo-text">Ecommerce</h5>
+                <div class="close-btn"><i class="zmdi zmdi-close"></i></div>
             </div>
-            <!--end sidebar wrapper -->
-            <!--start header -->
-            <header>
-                <div class="topbar d-flex align-items-center">
-                    <nav class="navbar navbar-expand gap-3">
-                        <div class="mobile-toggle-menu"><i class="bx bx-menu"></i></div>
-                        <div class="search-bar flex-grow-1">
-                            <div class="position-relative search-bar-box">
-                                <input type="text" class="form-control search-control" placeholder="Type to search..." /> <span class="position-absolute top-50 search-show translate-middle-y"><i class="bx bx-search"></i></span>
-                                <span class="position-absolute top-50 search-close translate-middle-y"><i class="bx bx-x"></i></span>
-                            </div>
-                        </div>
-                        <div class="top-menu ms-auto">
-                            <ul class="navbar-nav align-items-center gap-1">
-                                <li class="nav-item mobile-search-icon d-flex d-lg-none" data-bs-toggle="modal" data-bs-target="#SearchModal">
-                                    <a class="nav-link" href="avascript:;"><i class="bx bx-search"></i> </a>
-                                </li>
-                                <li class="nav-item dropdown dropdown-laungauge d-none d-sm-flex">
-                                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="avascript:;" data-bs-toggle="dropdown"><img src="{{asset('contents/admin')}}/images/county/02.png" width="22" alt="" /> </a>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="{{asset('contents/admin')}}/images/county/01.png" width="20" alt="" /><span class="ms-2">English</span></a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="{{asset('contents/admin')}}/images/county/02.png" width="20" alt="" /><span class="ms-2">Catalan</span></a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="{{asset('contents/admin')}}/images/county/03.png" width="20" alt="" /><span class="ms-2">French</span></a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="{{asset('contents/admin')}}/images/county/04.png" width="20" alt="" /><span class="ms-2">Belize</span></a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="{{asset('contents/admin')}}/images/county/05.png" width="20" alt="" /><span class="ms-2">Colombia</span></a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="{{asset('contents/admin')}}/images/county/06.png" width="20" alt="" /><span class="ms-2">Spanish</span></a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="{{asset('contents/admin')}}/images/county/07.png" width="20" alt="" /><span class="ms-2">Georgian</span></a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="{{asset('contents/admin')}}/images/county/08.png" width="20" alt="" /><span class="ms-2">Hindi</span></a>
-                                        </li>
-                                    </ul>
-                                </li>
 
-                                <li class="nav-item dropdown dropdown-app">
-                                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown" href="javascript:;"><i class="bx bx-grid-alt"></i></a>
-                                    <div class="dropdown-menu dropdown-menu-end p-0">
-                                        <div class="app-container p-2 my-2">
-                                            <div class="row gx-0 gy-2 row-cols-3 justify-content-center p-2">
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/slack.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Slack</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/behance.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Behance</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/google-drive.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Dribble</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/outlook.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Outlook</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/github.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">GitHub</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/stack-overflow.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Stack</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/figma.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Stack</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/twitter.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Twitter</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/google-calendar.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Calendar</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/spotify.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Spotify</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/google-photos.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Photos</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/pinterest.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Photos</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/linkedin.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">linkedin</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/dribble.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Dribble</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/youtube.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">YouTube</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/google.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">News</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/envato.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Envato</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col">
-                                                    <a href="javascript:;">
-                                                        <div class="app-box text-center">
-                                                            <div class="app-icon">
-                                                                <img src="{{asset('contents/admin')}}/images/app/safari.png" width="30" alt="" />
-                                                            </div>
-                                                            <div class="app-name">
-                                                                <p class="mb-0 mt-1">Safari</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!--end row-->
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li class="nav-item dropdown dropdown-large">
-                                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" data-bs-toggle="dropdown">
-                                        <span class="alert-count">7</span>
-                                        <i class="bx bx-bell"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a href="javascript:;">
-                                            <div class="msg-header">
-                                                <p class="msg-header-title">Notifications</p>
-                                                <p class="msg-header-badge">8 New</p>
-                                            </div>
-                                        </a>
-                                        <div class="header-notifications-list">
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="user-online">
-                                                        <img src="{{asset('contents/admin')}}/images/avatars/avatar-1.png" class="msg-avatar" alt="user avatar" />
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5 sec ago</span></h6>
-                                                        <p class="msg-info">The standard chunk of lorem</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="notify bg-light-danger text-danger">dc</div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="msg-name">New Orders <span class="msg-time float-end">2 min ago</span></h6>
-                                                        <p class="msg-info">You have recived new orders</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="user-online">
-                                                        <img src="{{asset('contents/admin')}}/images/avatars/avatar-2.png" class="msg-avatar" alt="user avatar" />
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="msg-name">Althea Cabardo <span class="msg-time float-end">14 sec ago</span></h6>
-                                                        <p class="msg-info">Many desktop publishing packages</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="notify bg-light-success text-success">
-                                                        <img src="{{asset('contents/admin')}}/images/app/outlook.png" width="25" alt="user avatar" />
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="msg-name">Account Created<span class="msg-time float-end">28 min ago</span></h6>
-                                                        <p class="msg-info">Successfully created new email</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="notify bg-light-info text-info">Ss</div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="msg-name">New Product Approved <span class="msg-time float-end">2 hrs ago</span></h6>
-                                                        <p class="msg-info">Your new product has approved</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="user-online">
-                                                        <img src="{{asset('contents/admin')}}/images/avatars/avatar-4.png" class="msg-avatar" alt="user avatar" />
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="msg-name">Katherine Pechon <span class="msg-time float-end">15 min ago</span></h6>
-                                                        <p class="msg-info">Making this the first true generator</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="notify bg-light-success text-success"><i class="bx bx-check-square"></i></div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="msg-name">Your item is shipped <span class="msg-time float-end">5 hrs ago</span></h6>
-                                                        <p class="msg-info">Successfully shipped your item</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="notify bg-light-primary">
-                                                        <img src="{{asset('contents/admin')}}/images/app/github.png" width="25" alt="user avatar" />
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="msg-name">New 24 authors<span class="msg-time float-end">1 day ago</span></h6>
-                                                        <p class="msg-info">24 new authors joined last week</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="user-online">
-                                                        <img src="{{asset('contents/admin')}}/images/avatars/avatar-8.png" class="msg-avatar" alt="user avatar" />
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="msg-name">Peter Costanzo <span class="msg-time float-end">6 hrs ago</span></h6>
-                                                        <p class="msg-info">It was popularised in the 1960s</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <a href="javascript:;">
-                                            <div class="text-center msg-footer">
-                                                <button class="btn btn-light w-100">View All Notifications</button>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown dropdown-large">
-                                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span class="alert-count">8</span>
-                                        <i class="bx bx-shopping-bag"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a href="javascript:;">
-                                            <div class="msg-header">
-                                                <p class="msg-header-title">My Cart</p>
-                                                <p class="msg-header-badge">10 Items</p>
-                                            </div>
-                                        </a>
-                                        <div class="header-message-list">
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="position-relative">
-                                                        <div class="cart-product rounded-circle bg-light">
-                                                            <img src="{{asset('contents/admin')}}/images/products/11.png" class="" alt="product image" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-                                                        <p class="cart-product-price mb-0">1 X $29.00</p>
-                                                    </div>
-                                                    <div class="">
-                                                        <p class="cart-price mb-0">$250</p>
-                                                    </div>
-                                                    <div class="cart-product-cancel"><i class="bx bx-x"></i></div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="position-relative">
-                                                        <div class="cart-product rounded-circle bg-light">
-                                                            <img src="{{asset('contents/admin')}}/images/products/02.png" class="" alt="product image" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-                                                        <p class="cart-product-price mb-0">1 X $29.00</p>
-                                                    </div>
-                                                    <div class="">
-                                                        <p class="cart-price mb-0">$250</p>
-                                                    </div>
-                                                    <div class="cart-product-cancel"><i class="bx bx-x"></i></div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="position-relative">
-                                                        <div class="cart-product rounded-circle bg-light">
-                                                            <img src="{{asset('contents/admin')}}/images/products/03.png" class="" alt="product image" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-                                                        <p class="cart-product-price mb-0">1 X $29.00</p>
-                                                    </div>
-                                                    <div class="">
-                                                        <p class="cart-price mb-0">$250</p>
-                                                    </div>
-                                                    <div class="cart-product-cancel"><i class="bx bx-x"></i></div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="position-relative">
-                                                        <div class="cart-product rounded-circle bg-light">
-                                                            <img src="{{asset('contents/admin')}}/images/products/04.png" class="" alt="product image" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-                                                        <p class="cart-product-price mb-0">1 X $29.00</p>
-                                                    </div>
-                                                    <div class="">
-                                                        <p class="cart-price mb-0">$250</p>
-                                                    </div>
-                                                    <div class="cart-product-cancel"><i class="bx bx-x"></i></div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="position-relative">
-                                                        <div class="cart-product rounded-circle bg-light">
-                                                            <img src="{{asset('contents/admin')}}/images/products/05.png" class="" alt="product image" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-                                                        <p class="cart-product-price mb-0">1 X $29.00</p>
-                                                    </div>
-                                                    <div class="">
-                                                        <p class="cart-price mb-0">$250</p>
-                                                    </div>
-                                                    <div class="cart-product-cancel"><i class="bx bx-x"></i></div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="position-relative">
-                                                        <div class="cart-product rounded-circle bg-light">
-                                                            <img src="{{asset('contents/admin')}}/images/products/06.png" class="" alt="product image" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-                                                        <p class="cart-product-price mb-0">1 X $29.00</p>
-                                                    </div>
-                                                    <div class="">
-                                                        <p class="cart-price mb-0">$250</p>
-                                                    </div>
-                                                    <div class="cart-product-cancel"><i class="bx bx-x"></i></div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="position-relative">
-                                                        <div class="cart-product rounded-circle bg-light">
-                                                            <img src="{{asset('contents/admin')}}/images/products/07.png" class="" alt="product image" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-                                                        <p class="cart-product-price mb-0">1 X $29.00</p>
-                                                    </div>
-                                                    <div class="">
-                                                        <p class="cart-price mb-0">$250</p>
-                                                    </div>
-                                                    <div class="cart-product-cancel"><i class="bx bx-x"></i></div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="position-relative">
-                                                        <div class="cart-product rounded-circle bg-light">
-                                                            <img src="{{asset('contents/admin')}}/images/products/08.png" class="" alt="product image" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-                                                        <p class="cart-product-price mb-0">1 X $29.00</p>
-                                                    </div>
-                                                    <div class="">
-                                                        <p class="cart-price mb-0">$250</p>
-                                                    </div>
-                                                    <div class="cart-product-cancel"><i class="bx bx-x"></i></div>
-                                                </div>
-                                            </a>
-                                            <a class="dropdown-item" href="javascript:;">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="position-relative">
-                                                        <div class="cart-product rounded-circle bg-light">
-                                                            <img src="{{asset('contents/admin')}}/images/products/09.png" class="" alt="product image" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-                                                        <p class="cart-product-price mb-0">1 X $29.00</p>
-                                                    </div>
-                                                    <div class="">
-                                                        <p class="cart-price mb-0">$250</p>
-                                                    </div>
-                                                    <div class="cart-product-cancel"><i class="bx bx-x"></i></div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <a href="javascript:;">
-                                            <div class="text-center msg-footer">
-                                                <div class="d-flex align-items-center justify-content-between mb-3">
-                                                    <h5 class="mb-0">Total</h5>
-                                                    <h5 class="mb-0 ms-auto">$489.00</h5>
-                                                </div>
-                                                <button class="btn btn-light w-100">Checkout</button>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="user-box dropdown px-3">
-                            <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{asset('contents/admin')}}/images/avatars/avatar-2.png" class="user-img" alt="user avatar" />
-                                <div class="user-info">
-                                    <p class="user-name mb-0">Pauline Seitz</p>
-                                    <p class="designattion mb-0">Web Designer</p>
-                                </div>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-user fs-5"></i><span>Profile</span></a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-cog fs-5"></i><span>Settings</span></a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-home-circle fs-5"></i><span>Dashboard</span></a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-dollar-circle fs-5"></i><span>Earnings</span></a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-download fs-5"></i><span>Downloads</span></a>
-                                </li>
-                                <li>
-                                    <div class="dropdown-divider mb-0"></div>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-log-out-circle"></i><span>Logout</span></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-            </header>
-            <!--end header -->
-
-
-            @yield('content')
-
-
-             <!--Start Back To Top Button-->
-            <a href="javaScript:;" class="back-to-top"><i class="bx bxs-up-arrow-alt"></i></a>
-            <!--End Back To Top Button-->
-            <footer class="page-footer">
-                <p class="mb-0">  Copyright © 2025. All right reserved.</p>
-            </footer>
+            @include('admin.includes.sidebar')
         </div>
-        <!--end wrapper-->
-        <!--start switcher-->
-        <div class="switcher-wrapper">
-            <div class="switcher-btn"><i class="bx bx-cog bx-spin"></i></div>
-            <div class="switcher-body">
-                <div class="d-flex align-items-center">
-                    <h5 class="mb-0 text-uppercase">Theme Customizer</h5>
-                    <button type="button" class="btn-close ms-auto close-switcher" aria-label="Close"></button>
+        <!--End sidebar-wrapper-->
+
+        <!--Start topbar header-->
+        <header class="topbar-nav">
+            <nav class="navbar navbar-expand fixed-top">
+                <div class="toggle-menu">
+                    <i class="zmdi zmdi-menu"></i>
                 </div>
+                <div class="search-bar flex-grow-1">
+                    <div class="input-group">
+                        <div class="input-group-prepend search-arrow-back">
+                            <button class="btn btn-search-back" type="button"><i
+                                    class="zmdi zmdi-long-arrow-left"></i></button>
+                        </div>
+                        <input type="text" class="form-control" placeholder="search" />
+                        <div class="input-group-append">
+                            <button class="btn btn-search" type="button"><i class="zmdi zmdi-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="navbar-nav align-items-center right-nav-link ml-auto">
+                    <li class="nav-item dropdown search-btn-mobile">
+                        <a class="nav-link position-relative" href="javascript:void();">
+                            <i class="zmdi zmdi-search align-middle"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown dropdown-lg">
+                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative"
+                            data-toggle="dropdown" href="javascript:void();">
+                            <i class="zmdi zmdi-comment-outline align-middle"></i><span
+                                class="bg-danger text-white badge-up">12</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">New
+                                    Messages <a href="javascript:void();" class="extra-small-font">Clear All</a></li>
+                                <li class="list-group-item">
+                                    <a href="javaScript:void();">
+                                        <div class="media">
+                                            <div class="avatar"><img class="align-self-start mr-3"
+                                                    src="{{ asset('contents/admin') }}/images/avatars/avatar-5.png"
+                                                    alt="user avatar" /></div>
+                                            <div class="media-body">
+                                                <h6 class="mt-0 msg-title">Jhon Deo</h6>
+                                                <p class="msg-info">Lorem ipsum dolor sit amet...</p>
+                                                <small>Today, 4:10 PM</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javaScript:void();">
+                                        <div class="media">
+                                            <div class="avatar"><img class="align-self-start mr-3"
+                                                    src="{{ asset('contents/admin') }}/images/avatars/avatar-6.png"
+                                                    alt="user avatar" /></div>
+                                            <div class="media-body">
+                                                <h6 class="mt-0 msg-title">Sara Jen</h6>
+                                                <p class="msg-info">Lorem ipsum dolor sit amet...</p>
+                                                <small>Yesterday, 8:30 AM</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javaScript:void();">
+                                        <div class="media">
+                                            <div class="avatar"><img class="align-self-start mr-3"
+                                                    src="{{ asset('contents/admin') }}/images/avatars/avatar-7.png"
+                                                    alt="user avatar" /></div>
+                                            <div class="media-body">
+                                                <h6 class="mt-0 msg-title">Dannish Josh</h6>
+                                                <p class="msg-info">Lorem ipsum dolor sit amet...</p>
+                                                <small>5/11/2018, 2:50 PM</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javaScript:void();">
+                                        <div class="media">
+                                            <div class="avatar"><img class="align-self-start mr-3"
+                                                    src="{{ asset('contents/admin') }}/images/avatars/avatar-8.png"
+                                                    alt="user avatar" /></div>
+                                            <div class="media-body">
+                                                <h6 class="mt-0 msg-title">Katrina Mccoy</h6>
+                                                <p class="msg-info">Lorem ipsum dolor sit amet.</p>
+                                                <small>1/11/2018, 2:50 PM</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item text-center"><a href="javaScript:void();">See All
+                                        Messages</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown dropdown-lg">
+                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative"
+                            data-toggle="dropdown" href="javascript:void();">
+                            <i class="zmdi zmdi-notifications-active align-middle"></i><span
+                                class="bg-info text-white badge-up">14</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">New
+                                    Notifications <a href="javascript:void();" class="extra-small-font">Clear All</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javaScript:void();">
+                                        <div class="media">
+                                            <i class="zmdi zmdi-accounts fa-2x mr-3 text-info"></i>
+                                            <div class="media-body">
+                                                <h6 class="mt-0 msg-title">New Registered Users</h6>
+                                                <p class="msg-info">Lorem ipsum dolor sit amet...</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javaScript:void();">
+                                        <div class="media">
+                                            <i class="zmdi zmdi-coffee fa-2x mr-3 text-warning"></i>
+                                            <div class="media-body">
+                                                <h6 class="mt-0 msg-title">New Received Orders</h6>
+                                                <p class="msg-info">Lorem ipsum dolor sit amet...</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javaScript:void();">
+                                        <div class="media">
+                                            <i class="zmdi zmdi-notifications-active fa-2x mr-3 text-danger"></i>
+                                            <div class="media-body">
+                                                <h6 class="mt-0 msg-title">New Updates</h6>
+                                                <p class="msg-info">Lorem ipsum dolor sit amet...</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item text-center"><a href="javaScript:void();">See All
+                                        Notifications</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown language">
+                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative"
+                            data-toggle="dropdown" href="javascript:void();"><i
+                                class="flag-icon flag-icon-gb align-middle"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li class="dropdown-item"><i class="flag-icon flag-icon-gb mr-3"></i>English</li>
+                            <li class="dropdown-item"><i class="flag-icon flag-icon-fr mr-3"></i>French</li>
+                            <li class="dropdown-item"><i class="flag-icon flag-icon-cn mr-3"></i>Chinese</li>
+                            <li class="dropdown-item"><i class="flag-icon flag-icon-de mr-3"></i>German</li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative"
+                            data-toggle="dropdown" href="javascript:void();">
+                            <span class="user-profile"><img
+                                    src="{{ asset('contents/admin') }}/images/avatars/avatar-13.png"
+                                    class="img-circle" alt="user avatar" /></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li class="dropdown-item user-details">
+                                <a href="javaScript:void();">
+                                    <div class="media">
+                                        <div class="avatar"><img class="align-self-start mr-3"
+                                                src="{{ asset('contents/admin') }}/images/avatars/avatar-13.png"
+                                                alt="user avatar" /></div>
+                                        <div class="media-body">
+                                            <h6 class="mt-2 user-title">Sarajhon Mccoy</h6>
+                                            <p class="user-subtitle">mccoy@example.com</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="dropdown-divider"></li>
+                            <li class="dropdown-item"><i class="zmdi zmdi-comments mr-3"></i>Inbox</li>
+                            <li class="dropdown-divider"></li>
+                            <li class="dropdown-item"><i class="zmdi zmdi-balance-wallet mr-3"></i>Account</li>
+                            <li class="dropdown-divider"></li>
+                            <li class="dropdown-item"><i class="zmdi zmdi-settings mr-3"></i>Setting</li>
+                            <li class="dropdown-divider"></li>
+                            <li class="dropdown-item"><i class="zmdi zmdi-power mr-3"></i>Logout</li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <!--End topbar header-->
+
+        <div class="clearfix"></div>
+
+
+        @yield('content')
+
+
+        <!--Start Back To Top Button-->
+        <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+        <!--End Back To Top Button-->
+
+        <!--Start footer-->
+        <footer class="footer">
+            <div class="container">
+                <div class="text-center">
+                    Copyright © 2020 Dashtreme Admin
+                </div>
+            </div>
+        </footer>
+        <!--End footer-->
+
+        <!--start color switcher-->
+        <div class="right-sidebar">
+            <div class="switcher-icon">
+                <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
+            </div>
+            <div class="right-sidebar-content">
+                <p class="mb-0">Gaussion Texture</p>
                 <hr />
-                <p class="mb-0">Gaussian Texture</p>
-                <hr />
+
                 <ul class="switcher">
                     <li id="theme1"></li>
                     <li id="theme2"></li>
@@ -683,9 +296,10 @@
                     <li id="theme5"></li>
                     <li id="theme6"></li>
                 </ul>
-                <hr />
+
                 <p class="mb-0">Gradient Background</p>
                 <hr />
+
                 <ul class="switcher">
                     <li id="theme7"></li>
                     <li id="theme8"></li>
@@ -699,47 +313,56 @@
                 </ul>
             </div>
         </div>
-        <!--end switcher-->
-        
+        <!--end color switcher-->
+    </div>
+    <!--End wrapper-->
+</body>
 
-         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                    
-
-
-
-<!-- Bootstrap JS -->
-        <script src="{{asset('contents/admin')}}/js/bootstrap.bundle.min.js"></script>
-        <!--plugins-->
-        
-        <script src="{{asset('contents/admin')}}/plugins/simplebar/js/simplebar.min.js"></script>
-        <script src="{{asset('contents/admin')}}/plugins/metismenu/js/metisMenu.min.js"></script>
-        <script src="{{asset('contents/admin')}}/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-        <script src="{{asset('contents/admin')}}/plugins/chartjs/chart.min.js"></script>
-        
-        <script src="{{asset('contents/admin')}}/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
-        <script src="{{asset('contents/admin')}}/plugins/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
-        <script src="{{asset('contents/admin')}}/plugins/sparkline-charts/jquery.sparkline.min.js"></script>
-        <script src="{{asset('contents/admin')}}/plugins/jquery-knob/excanvas.js"></script>
-        <script src="{{asset('contents/admin')}}/plugins/jquery-knob/jquery.knob.js"></script>
-        <script>
-            $(function () {
-                $(".knob").knob();
-            });
-        </script>
-        <script src="{{asset('contents/admin')}}/js/index.js"></script>
-        <!--app JS-->
-        <script src="{{asset('contents/admin')}}/js/app.js"></script>
-    </body>
+{{-- modal part --}}
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="">&times;</span>
+                </button>
+            </div>
+            <form action="" id="" name="modal_delete_form" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="id">
+                    <h5>Sure want to Delete!!</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
+<!-- Bootstrap core JavaScript-->
+<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+    @csrf
+</form>
 
-    <script>
-        "undefined" === typeof _trfq || (window._trfq = []);
-        "undefined" === typeof _trfd && (window._trfd = []), _trfd.push({ "tccl.baseHost": "secureserver.net" }, { ap: "cpsh-oh" }, { server: "p3plzcpnl509132" }, { dcenter: "p3" }, { cp_id: "10399385" }, { cp_cl: "8" }); // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.
-    </script>
-    <script src="../../../../img1.wsimg.com/signals/js/clients/scc-c2/scc-c2.min.js"></script>
-    @stack('cjs')
-    <!-- Mirrored from codervent.com/dashtreme/demo/vertical/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Aug 2025 17:52:45 GMT -->
+
+<script src="{{ asset('contents/admin') }}/custom.js"></script>
+<script src="{{ asset('contents/admin') }}/js/popper.min.js"></script>
+<script src="{{ asset('contents/admin') }}/js/bootstrap.min.js"></script>
+
+<!-- simplebar js -->
+<script src="{{ asset('contents/admin') }}/plugins/simplebar/js/simplebar.js"></script>
+<!-- Metismenu js -->
+<script src="{{ asset('contents/admin') }}/plugins/metismenu/js/metisMenu.min.js"></script>
+<!-- Custom scripts -->
+<script src="{{ asset('contents/admin') }}/js/app-script.js"></script>
+{{-- <!-- Chart js  --}}
+
+@stack('cjs')
+
 </html>

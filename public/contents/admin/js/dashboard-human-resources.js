@@ -13,7 +13,7 @@ $(function() {
                       show: false
                     },
                 dropShadow: {
-                    enabled: false,
+                    enabled: true,
                     opacity: 0.1,
                     blur: 3,
                     left: -7,
@@ -41,9 +41,11 @@ $(function() {
                 }
             },
             stroke: {
-                show: !0,
-                width: 2,
-                colors: ["transparent"]
+                show: true,
+                width: [0, 0, 0],
+                dashArray: [0, 0, 0],
+                curve: 'smooth'
+               //colors: ['transparent']
             },
             grid:{
                 show: true,
@@ -62,10 +64,7 @@ $(function() {
             xaxis: {
                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
             },
-            fill: {
-                opacity: 1
-            },
-            colors: ["rgba(255, 255, 255, 0.60)", "#fff", "rgba(255, 255, 255, 0.25)"],
+            colors: ["#fff", "rgba(255, 255, 255, 0.50)", 'rgba(255, 255, 255, 0.10)'],
             tooltip: {
                 theme: 'dark',
                 y: {
@@ -114,7 +113,7 @@ $(function() {
     
     var options = {
             chart: {
-                height: 340,
+                height: 360,
                 type: 'radialBar',
             },
             plotOptions: {
@@ -139,7 +138,7 @@ $(function() {
                     },
                     track: {
                       background: 'rgba(255, 255, 255, 0.06)',
-                      strokeWidth: '20%',
+                      strokeWidth: '100%',
                       margin: 5, // margin is in pixels
                       dropShadow: {
                         enabled: false,
@@ -175,9 +174,6 @@ $(function() {
             stroke: {
                lineCap: "round",
            },
-            fill: {
-                opacity: 1
-            },
             colors: ["#fff", "rgba(255, 255, 255, 0.50)", "rgba(255, 255, 255, 0.25)", "rgba(255, 255, 255, 0.12)"],
             series: [90, 80, 70, 60],
             labels: ['Career Page', 'Referral', 'Agency', 'Job Boards']
@@ -198,7 +194,7 @@ $(function() {
   
   var options = {
             chart: {
-                width: 150,
+                width: 180,
         //height: 150,
                 type: 'radialBar',
             },
@@ -208,7 +204,7 @@ $(function() {
                     //endAngle: 135,
                     hollow: {
                       margin: 0,
-                      size: '70%',
+                      size: '65%',
                       background: 'rgba(0, 0, 0, 0.0)',
                       image: undefined,
                       imageOffsetX: 0,
@@ -288,7 +284,7 @@ $(function() {
   
   var options = {
             chart: {
-                width: 150,
+                width: 180,
         //height: 150,
                 type: 'radialBar',
             },
@@ -298,7 +294,7 @@ $(function() {
                     //endAngle: 135,
                     hollow: {
                       margin: 0,
-                      size: '70%',
+                      size: '65%',
                       background: 'rgba(0, 0, 0, 0.0)',
                       image: undefined,
                       imageOffsetX: 0,
@@ -377,7 +373,7 @@ $(function() {
   
   var options = {
             chart: {
-                width: 150,
+                width: 180,
         //height: 150,
                 type: 'radialBar',
             },
@@ -387,7 +383,7 @@ $(function() {
                     //endAngle: 135,
                     hollow: {
                       margin: 0,
-                      size: '70%',
+                      size: '65%',
                       background: 'rgba(255, 255, 255, 0.0)',
                       image: undefined,
                       imageOffsetX: 0,
@@ -466,7 +462,7 @@ $(function() {
    
    var options = {
       chart: {
-        height: 325,
+        height: 335,
         type: 'radialBar',
         toolbar: {
           show: false
@@ -477,8 +473,8 @@ $(function() {
           startAngle: -135,
           endAngle: 225,
            hollow: {
-            //margin: 20,
-            size: '80%',
+            margin: 20,
+            size: '70%',
             background: 'transparent',
             image: undefined,
             imageOffsetX: 0,
@@ -494,7 +490,7 @@ $(function() {
           },
           track: {
             background: 'rgba(255, 255, 255, 0.12)',
-            //strokeWidth: '67%',
+            strokeWidth: '67%',
             margin: 0, // margin is in pixels
             dropShadow: {
               enabled: true,
@@ -560,14 +556,14 @@ $(function() {
 
 var options = {
             chart: {
-                height: 330,
+                height: 387,
                 type: 'bar',
 				foreColor: 'rgba(255, 255, 255, 0.65)',
                 toolbar: {
                   show: false
                 },
         dropShadow: {
-                    enabled: false,
+                    enabled: true,
                     opacity: 0.1,
                     blur: 3,
                     left: -7,
@@ -576,7 +572,7 @@ var options = {
             },
             plotOptions: {
                 bar: {
-                    barHeight: '80%',
+                    barHeight: '100%',
                     endingShape: 'rounded',
                     distributed: true,
                     horizontal: true,
@@ -592,8 +588,8 @@ var options = {
                     gradientToColors: [ '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff'],
                     shadeIntensity: 0.60,
                     type: 'vertical',
-                    opacityFrom: 0.4,
-                    opacityTo: 0.4,
+                    opacityFrom: 0.5,
+                    opacityTo: 0.5,
                     stops: [0, 100, 100, 100]
                 },
             },
@@ -646,7 +642,7 @@ var options = {
 			  borderColor: 'rgba(255, 255, 255, 0.12)',
 	        },
 			legend:{
-				show:false
+				
 			}
         }
 
@@ -997,9 +993,6 @@ var options1 = {
                 show: true,
                 borderColor: 'rgba(255, 255, 255, 0.12)',
             }, 
-            fill: {
-                opacity: 1
-            },
             colors: ["#ffffff"], 
             yaxis: {
                 axisBorder: {
@@ -1123,7 +1116,7 @@ var options = {
                 type: 'gradient',
                 gradient: {
                     shade: 'light',
-                    gradientToColors: ['#fff', 'rgba(255, 255, 255, 0.30)'],
+                    gradientToColors: ['rgba(255, 255, 255, 0.1)', '#fff'],
                     shadeIntensity: 1,
                     type: 'vertical',
                     opacityFrom: 1,
@@ -1131,7 +1124,7 @@ var options = {
                     stops: [0, 80, 100]
                 },
             },
-            colors: ['#fff', 'rgba(255, 255, 255, 0.30)'],
+            colors: ['rgba(255, 255, 255, 0.1)', '#fff'],
             legend: {
                 show: !0,
                 position: "top",

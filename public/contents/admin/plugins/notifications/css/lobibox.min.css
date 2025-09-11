@@ -960,13 +960,13 @@ body.lobibox-open {
 }
 
 .lobibox-notify.lobibox-notify-default {
-	border-color: #212529;
-	background-color: #212529;
+	border-color: #000000;
+	background-color: #000000;
 	color: #FFF
 }
 
 .lobibox-notify.lobibox-notify-default:hover {
-	background-color: #212529;
+	background-color: #000000;
 	border-color: #FFF
 }
 
@@ -975,47 +975,47 @@ body.lobibox-open {
 }
 
 .lobibox-notify.lobibox-notify-error {
-	border-color: #f41127;
-	background-color: #f41127;
+	border-color: #eb5076;
+	background-color: #eb5076;
 	color: #FFF
 }
 
 .lobibox-notify.lobibox-notify-error:hover {
-	background-color: #f41127;
+	background-color: #eb5076;
 	border-color: #FFF
 }
 
 .lobibox-notify.lobibox-notify-success {
-	border-color: #17a00e;
-	background-color: #17a00e;
+	border-color: #02ba5a;
+	background-color: #02ba5a;
 	color: #FFF
 }
 
 .lobibox-notify.lobibox-notify-success:hover {
-	background-color: #17a00e;
+	background-color: #02ba5a;
 	border-color: #FFF
 }
 
 .lobibox-notify.lobibox-notify-warning {
-	border-color: #ffc107;
-	background-color: #ffc107;
-	color: #212529
+	border-color: #fba540;
+	background-color: #fba540;
+	color: #FFF
 }
 
 .lobibox-notify.lobibox-notify-warning:hover {
-	background-color: #ffc107;
-	border-color: #212529
+	background-color: #fba540;
+	border-color: #FFF
 }
 
 .lobibox-notify.lobibox-notify-info {
-	border-color: #31d2f2;
-	background-color: #31d2f2;
-	color: #000
+	border-color: #03d0ea;
+	background-color: #03d0ea;
+	color: #FFF
 }
 
 .lobibox-notify.lobibox-notify-info:hover {
-	background-color: #31d2f2;
-	border-color: #000
+	background-color: #03d0ea;
+	border-color: #FFF
 }
 
 .lobibox-notify.rounded {
