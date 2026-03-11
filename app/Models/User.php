@@ -43,9 +43,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function role_information()
+    
+    public static function scopeActive($query)
     {
-return $this->belongsTo('App\Models\UserRole','id','role_id');
+        return $query->where('status', 1);
+    }
+
+
+  public function role_information()
+    {
+return $this->belongsTo('App\Models\UserRole','role_id','id');
     }
 }

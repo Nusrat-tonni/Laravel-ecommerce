@@ -18,7 +18,7 @@ class SuperAdmin
     public function handle(Request $request, Closure $next)
     {
      if(Auth::check() && Auth::user()->role_id == 1 && Auth::user()->status == 1) {
-      dd('$request->all');
+      // dd('$request->all');
         return $next($request);
      }else{
         return redirect('/admin')->with('warning','you have np permissions.');

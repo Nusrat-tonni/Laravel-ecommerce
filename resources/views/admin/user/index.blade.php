@@ -21,7 +21,8 @@
                                         <th scope="col">first name</th>
                                         <th scope="col">last name</th>
                                         <th scope="col">username</th>
-                                         <th scope="col">role name</th>
+                                         <th scope="col">email</th>
+                                         <th scope="col">role id</th>
                                         <th scope="col">created at</th>
                                          <th scope="col">Action</th>
                                     </tr>
@@ -35,7 +36,8 @@
                                         <td>{{ $item->last_name }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email}}</td>
-                                        <td>{{ $item->role_id }}</td>
+                                        {{-- <td>{{ $item->role_id }}</td> --}}
+                                        <td>{{ $item->role_information ?  $item->role_information->name :$item->role_id}}</td>
                                         <td>{{ $item->created_at->format('d M Y h:i:s a') }}</td>
                                         <td>
                                             <div>

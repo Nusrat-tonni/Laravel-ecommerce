@@ -51,7 +51,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 40%">Role Name</td>
+                                    <td style="width: 40%">Role id</td>
                                     <td>:</td>
                                     <td>
                                         {{ $user->role_id }}

@@ -1,3 +1,317 @@
-$(function(){
+//  const { forIn } = require("lodash");
 
+// const { forIn } = require("lodash");
+
+$(function () {
+
+     init_delete_function = () => {
+    }
+    init_delete_function();
+  
+    $('input').on('focus', function(e) {
+        $(this).siblings('span').html('');
+    });
+
+    $('select').on('focus', function(e) {
+        $(this).siblings('span').html('');
+    });
+    
+     $('textarea').on('focus', function(e){
+        $(this).siblings('span').html('');
+    });
+
+
+   // all insert form ajax
+    $('.insert_form').on('submit',function(e){
+        e.preventDefault();
+        let formData = new FormData($(this)[0]);
+              
+       $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: formData,
+            processData: false,           
+            contentType: false, 
+            success: (res)=>{
+                 console.log(res);
+                // $(this).trigger('reset');
+                // $('.product_insert_form select').val('').trigger('change')
+                // $('.note-editable').html('');
+                // $('.preloader').hide();
+                toaster('success','data inserted successfully.');
+            },
+            error: (err)=>{
+                // console.log(err.responseJSON.errors);
+                let errors = err.responseJSON.errors;
+                for (const key in errors) {
+                    if (Object.hasOwnProperty.call(errors, key)) {
+                        const element = errors[key];
+                        $(`.${key}`).text(element);
+                    }
+                }
+                toaster('error','check below for errors');
+                $('.preloader').hide();
+            },
+            beforeSend:()=>{
+                $('.preloader').show();
+            }
+        })
+    });
+
+  // all update form ajax
+     $('.update_form').on('submit',function(e){
+        e.preventDefault();
+        let formData = new FormData($(this)[0]);
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: formData,
+            success: (res)=>{
+                $('.preloader').hide();
+                toaster('success','data updated successfully.');
+            },
+            error: (err)=>{
+                // console.log(err.responseJSON.errors);
+                let errors = err.responseJSON.errors;
+                for (const key in errors) {
+                    if (Object.hasOwnProperty.call(errors, key)) {
+                        const element = errors[key];
+                        $(`.${key}`).text(element);
+                    }
+                }
+                toaster('error','check below for errors');
+                $('.preloader').hide();
+            },
+            beforeSend:()=>{
+                $('.preloader').show();
+            }
+        })
+     });
+
+
+ $('.component_form_submit').off().on('click',function(){
+        let form = $(this).parents('.component_form');
+        let target_select = $(this).parents('.component_form').data('target_select');
+        let action = $(this).parents('.component_form').attr('action');
+        let inputs = $(form[0]).children('.modal-body').children('.form-group').children('div').children('input');
+        let textareas = $(form[0]).children('.modal-body').children('.form-group').children('div').children('textarea');
+        let selects = $(form[0]).children('.modal-body').children('.form-group').children('div').children('.select_ontime').children('select');
+
+        // let formData = new FormData(form);
+        let temp_form = $(document.createElement('form'));
+        $(temp_form).attr('method','POST');
+
+        for (const key in inputs) {
+            if (Object.hasOwnProperty.call(inputs, key)) {
+                const element = inputs[key];
+                if( parseInt(key) >= 0 && typeof parseInt(key) === "number"){
+                    $(temp_form).append($(element).clone());
+                }
+            }
+        }
+
+        for (const key in textareas) {
+            if (Object.hasOwnProperty.call(textareas, key)) {
+                const element = textareas[key];
+                if( parseInt(key) >= 0 && typeof parseInt(key) === "number"){
+                    $(temp_form).append($(element).clone());
+                }
+            }
+        }
+
+        for (const key in selects) {
+            if (Object.hasOwnProperty.call(selects, key)) {
+                const element = selects[key];
+                if( parseInt(key) >= 0 && typeof parseInt(key) === "number"){
+                    $(temp_form).append($(element).clone());
+                }
+            }
+        }
+
+        let formData = new FormData(temp_form[0]);
+
+        $.ajax({
+            url : action,
+            type : "POST",
+            data : formData,
+            success : (res)=>{
+                // console.log(target_select);
+                $('.component_preloader').hide();
+                toaster('success','data inserted successfully.');
+
+               // ✅ FIX: remove focus from the submit button
+                // $('.component_form_submit').blur();
+
+                $('.modal').modal('hide');
+                $('.component_form input').val('');
+                $('.component_form textarea').val('');
+                $('.component_form select').html('');
+                $(target_select).prepend(res.html);
+                
+            // //   / FIX STARTS HERE:
+            //    // 1. Append the new option
+            //     $(target_select).append(res.html);
+
+                $(target_select).val(res.value);
+                 // 2. Update the value and trigger 'change' so Select2 sees it 
+                // let currentValues = $(target_select).val() || [];
+                // currentValues.push(res.value);
+                // $(target_select).val(currentValues).trigger('change');
+            },
+            error: (err)=>{
+                // console.log(err.responseJSON.errors);
+                let errors = err.responseJSON.errors;
+                for (const key in errors) {
+                    if (Object.hasOwnProperty.call(errors, key)) {
+                        const element = errors[key];
+                        $(`.component_form .${key}`).text(element);
+                    }
+                }
+                toaster('error','check below for errors');
+                $('.component_preloader').hide();
+            },
+            beforeSend:()=>{
+                $('.component_preloader').show();
+            }
+        })
+
+        //  console.log(form, action, inputs, textareas, temp_form);
+    });
+
+    $('.parent_select').off().on('change',function(){
+        let value = $(this).val();
+        let control_url = $(this).data('this_field_control_route');
+        let control_class = $(this).data('this_field_will_control');
+
+
+        $.get(control_url+'/'+value,(res)=>{
+           console.log(res) ; 
+           $('.'+control_class).html(res);        
+
+        })
+    })
+
+    $('.load_options').on('click',function(e){
+        e.preventDefault();
+        let url = $(this).data('url');
+        let control_class = $(this).siblings('select').data('this_field_will_control');
+        $.get(url,(res)=>{
+            $(this).siblings('select').html(res);
+
+            if(control_class){
+            $('.'+control_class).html('');
+            }
+            
+        });
+    });
+
+ const get_fm_images = () =>{
+        $.get('/file-manager/get-files',(res)=>{
+            $('.file_manager_images_list').html(res);
+             activate_image_functions();
+            init_delete_function();
+        });
+    }
+
+     $('.fm_file_importer').on('change',function(){
+        let temp_form = $(document.createElement('form'));
+        $(temp_form).attr('method','POST');
+        $(temp_form).append($(this).clone());
+        let formData = new FormData(temp_form[0]);
+
+        $.post('/file-manager/store-file',formData,(res)=>{
+            if(res){
+                $(this).val('');
+                 get_fm_images();
+                toaster('success','Image Uploaded successfully.');
+            }
+        })
+    })
+
+     let clicked_input_field = '';
+
+    $('.input_file_body').on('click',function(){
+        get_fm_images();
+        
+        clicked_input_field = $(this).children('input')[0];
+        
+    })
+
+   
+
+   
+
+    let selected_image = [];
+    let selected_image_id = [];
+
+    const activate_image_functions = () => {
+        selected_image = [];
+        $('.fm_checkbox').off().on('click',function(){
+            let value = $(this).data('name');
+             let value_Id = $(this).val();
+            let check_exist = selected_image.includes(value);
+            if(check_exist){
+                selected_image = selected_image.filter(name => name !== value);
+                selected_image_id= selected_image_id.filter(id=>id !=value_Id);
+            }else{
+                selected_image.push(value);
+                selected_image_id.push(value_Id);
+                
+            }
+            //  console.log(selected_image,check_exists);
+            //  console.log(value,selected_image);
+        });
+    }
+
+    $('.fm_confirm_btn').on('click',function(e){
+        e.preventDefault();
+        if(selected_image.length){
+            if($(clicked_input_field)[0].multiple === false){
+                $(clicked_input_field).val(selected_image[0]);
+                $(clicked_input_field).siblings('img').attr('src','/'+selected_image[0]);
+            }else{
+             
+                  $(clicked_input_field).val(JSON.stringify(selected_image));
+                    $(clicked_input_field).siblings('img').remove();
+                  for (let index = 0; index < selected_image.length; index++) {
+                    const element = selected_image[index];
+                    $(clicked_input_field).parents('.input_file_body').prepend('<img src="/'+element+'" style="height: 50px;margin: 5px;"/>');
+                }
+            } 
+            $('#fileManagerModal').modal('hide');
+            console.log($(clicked_input_field));
+        }else{
+            toaster('error','no item selected');
+        }
+        //  console.log(selected_image);
+    });
+
+    // product main category ajax
+    $('.product_main_category').on('change',function(){
+        let value = $(this).val();
+        $.get('/admin/product/get-all-category-selected-by-main-category/'+value,(res)=>{
+            $('.product_category').html(res);
+            $('.product_sub_category').html('');
+        });
+    })
+
+    // product category ajax
+    $('.product_category').on('change',function(){
+        let value = $(this).val();
+        $.get('/admin/product/get-all-sub-category-selected-by-category/'+value,(res)=>{
+            $('.product_sub_category').html(res);
+        });
+    })
+
+
+    
+
+
+
+    // function toaster(icon,message){
+    //       Toast.fire({
+    //         icon: icon,
+    //         title: message,
+    //     })
+    // }
 })

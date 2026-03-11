@@ -7,7 +7,7 @@
                 <div class="col-lg-12">
 
                     <div class="card-body">
-                        <div class="card-title">Horizontal Form</div>
+                        <div class="card-title">HorizontalForm</div>
                         <hr />
                         <form>
                             <div class="form-group row">

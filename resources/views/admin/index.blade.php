@@ -7,8 +7,14 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div style="height: 600px;">
-                                <!--Please remove the height before using this page-->
-                                
+                                {{-- <!--Please remove the height before using this page-->
+                                <form action="/test" class="row" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                     <div class="form-group col-md-6 col-xl-6">
+                                    <input name="fm_file" type="file">
+                                    <button>submit</button>
+                                    </div>
+                                </form> --}}
                             </div>
                         </div>
                     </div>

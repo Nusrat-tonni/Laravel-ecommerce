@@ -16,19 +16,62 @@
             <a class="has-arrow" href="#">
                 <div class="parent-icon"><i class="zmdi zmdi-view-dashboard"></i></div>
                 <div class="menu-title">User Management</div>
-            </a>
-            <ul class="">
-                <li>
-                    <a href="{{ route('admin_user_index') }}"><i class="zmdi zmdi-dot-circle-alt"></i> index</a>
-                </li>
-                <li>
-                    <a href="{{ route('admin_user_role_index') }}"><i class="zmdi zmdi-dot-circle-alt"></i> User
-                        Role</a>
+                
+                    <a href="{{ route('admin_user_role_index') }}"><i class="zmdi zmdi-dot-circle-alt"></i> UserRole</a>
                 </li>
             </ul>
         </li>
     
+        
     @endif
+
+
+      <li>
+        <a class="has-arrow" href="javascript:void();">
+            <div class="parent-icon"><i class="fa fa-shopping-cart"></i></div>
+            <div class="menu-title">Product Management</div>
+        </a>
+        <ul class="">
+            <li>
+                <a href="{{ route('product.create') }}"><i class="zmdi zmdi-dot-circle-alt"></i>Add Product</a>
+            </li>
+             <li>
+                <a href="{{ route('brand.index') }}"><i class="zmdi zmdi-dot-circle-alt"></i>Brand</a>
+            </li>
+            <li>
+                <a href="{{ route('main_category.index') }}"><i class="zmdi zmdi-dot-circle-alt"></i>Main Category</a>
+            </li>
+              <li>
+                <a href="{{ route('category.index') }}"><i class="zmdi zmdi-dot-circle-alt"></i>Category</a>
+            </li>
+             <li>
+                <a href="{{ route('sub_category.index') }}"><i class="zmdi zmdi-dot-circle-alt"></i> Sub Category</a>
+            </li>
+            <li>
+                <a href="{{ route('color.index') }}"><i class="zmdi zmdi-dot-circle-alt"></i>color</a>
+            </li>
+             <li>
+                <a href="{{ route('size.index') }}"><i class="zmdi zmdi-dot-circle-alt"></i>Size</a>
+            </li>
+             <li>
+                <a href="{{ route('unit.index') }}"><i class="zmdi zmdi-dot-circle-alt"></i>Unit</a>
+            </li>
+            <li>
+                <a href="{{ route('vendor.index') }}"><i class="zmdi zmdi-dot-circle-alt"></i>Vendor</a>
+            </li>
+            <li>
+                <a href="{{ route('writer.index') }}"><i class="zmdi zmdi-dot-circle-alt"></i>Writer</a>
+            </li>
+             <li>
+                <a href="{{ route('publication.index') }}"><i class="zmdi zmdi-dot-circle-alt"></i>Publication</a>
+            </li>
+            <li>
+                <a href="{{ route('status.index') }}"><i class="zmdi zmdi-dot-circle-alt"></i>Status</a>
+            </li>
+           
+        </ul>
+    </li>
+
 
 
     <li>

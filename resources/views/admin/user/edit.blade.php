@@ -27,7 +27,7 @@
                             <div class="form-group row">
                                 <label for="input-21" class="col-sm-2 col-form-label">Last Name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="last_name" value="{{ $user->last_name }}"   class="form-control" id="input-21"
+                                    <input type="text" name="last_name" value="{{ $user->last_name }}" class="form-control" id="input-21"
                                         placeholder=" Last Name" />
                                          @error('last_name')
                                            <div class="text-warning">{{ $message }}</div> 
